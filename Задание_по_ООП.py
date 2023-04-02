@@ -23,6 +23,13 @@ class Student:
             f'Курсы в процессе изучения: {", ".join(self.courses_in_progress)}\n' + \
             f'Завершенные курсы: {", ".join(self.finished_courses)}'
 
+    def __lt__(self, other):
+        all_grades_1 = [grade for course_grades in self.grades.values() for grade in course_grades]
+        avg_grade_1 = sum(all_grades_1) / len(all_grades_1)
+        all_grades_2 = [grade for course_grades in other.grades.values() for grade in course_grades]
+        avg_grade_2 = sum(all_grades_2) / len(all_grades_2)
+        return all_grades_1 < all_grades_2
+
 class Mentor:
     def __init__(self, name, surname):
         self.name = name
@@ -38,6 +45,13 @@ class Lecturer(Mentor):
         all_grades = [grade for course_grades in self.grades.values() for grade in course_grades]
         return f'Имя: {self.name}\nФамилия: {self.surname}\nСредняя оценка за лекции:' \
                f' {sum(all_grades) / len(all_grades):.1f}'
+
+    def __lt__(self, other):
+        all_grades_1 = [grade for course_grades in self.grades.values() for grade in course_grades]
+        avg_grades_1 = sum(all_grades_1) / len(all_grades_1)
+        all_grades_2 = [grade for course_grades in other.grades.values() for grade in course_grades]
+        avg_grades_2 = sum(all_grades_2) / len(all_grades_2)
+        return avg_grades_1 < avg_grades_2
 
 class Reviewer(Mentor):
     def __init__(self, name, surname):
@@ -94,13 +108,15 @@ best_student.rate_lecture(cool_lecturer, 'Java', 5)
 best_student.rate_lecture(bad_lecturer, 'Java', 2)
 bad_student.rate_lecture(bad_lecturer, 'Java', 4)
 
-print(cool_lecturer.grades)
-print(best_student.grades)
-print(bad_student.grades)
+# print(cool_lecturer.grades)
+# print(best_student.grades)
+# print(bad_student.grades)
+#
+# print(f'{cool_reviewer}\n')
+# print(f'{cool_lecturer}\n')
+# print(f'{best_student}\n')
+# print(f'{bad_student}\n')
+# print(f'{bad_lecturer}\n')
 
-print(f'{cool_reviewer}\n')
-print(f'{cool_lecturer}\n')
-print(f'{best_student}\n')
-print(f'{bad_student}\n')
-print(f'{bad_lecturer}\n')
-
+print(best_student < bad_student)
+print(bad_lecturer < cool_lecturer)
