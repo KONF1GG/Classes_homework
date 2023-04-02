@@ -73,8 +73,10 @@ class Reviewer(Mentor):
 best_student = Student('Ruoy', 'Eman', 'M')
 bad_student = Student('leo', 'Watson', 'M')
 
+
 #Reviewers:
 cool_reviewer = Reviewer('Some', 'Buddy')
+second_reviewer = Reviewer('Jhon', 'Holmes')
 
 #Lecturers:
 cool_lecturer = Lecturer('David', 'Brown')
@@ -90,33 +92,67 @@ bad_student.courses_in_progress += ['Java']
 #adds courses to reviewers:
 cool_reviewer.courses_attached += ['Python']
 cool_reviewer.courses_attached += ['Java']
+second_reviewer.courses_attached += ['Java']
 
 #adds courses to lecturers:
 cool_lecturer.courses_attached += ['Python']
 cool_lecturer.courses_attached += ['Java']
 bad_lecturer.courses_attached += ['Java']
+bad_lecturer.courses_attached += ['Python']
 
 #Reviewres marks:
 cool_reviewer.rate_hw(best_student, 'Python', 10)
 cool_reviewer.rate_hw(best_student, 'Python', 9)
 cool_reviewer.rate_hw(bad_student, 'Java', 5)
-
+second_reviewer.rate_hw(best_student, 'Java', 10)
+second_reviewer.rate_hw(best_student, 'Java', 8)
 #Lecturers marks of students:
 best_student.rate_lecture(cool_lecturer, 'Python', 8)
 best_student.rate_lecture(cool_lecturer, 'Python', 7)
 best_student.rate_lecture(cool_lecturer, 'Java', 5)
 best_student.rate_lecture(bad_lecturer, 'Java', 2)
 bad_student.rate_lecture(bad_lecturer, 'Java', 4)
+best_student.rate_lecture(bad_lecturer, 'Python', 1)
 
-# print(cool_lecturer.grades)
-# print(best_student.grades)
-# print(bad_student.grades)
-#
-# print(f'{cool_reviewer}\n')
-# print(f'{cool_lecturer}\n')
-# print(f'{best_student}\n')
-# print(f'{bad_student}\n')
-# print(f'{bad_lecturer}\n')
+print(cool_lecturer.grades)
+print(bad_lecturer.grades)
+print(best_student.grades)
+print(bad_student.grades)
+
+print(f'{cool_reviewer}\n')
+print(f'{cool_lecturer}\n')
+print(f'{best_student}\n')
+print(f'{bad_student}\n')
+print(f'{bad_lecturer}\n')
 
 print(best_student < bad_student)
 print(bad_lecturer < cool_lecturer)
+
+students_list = [best_student, bad_student]
+lecturers_list = [cool_lecturer, bad_lecturer]
+
+
+def avg_students_homework(students, course):
+    sum_grades = 0
+    marks_count = 0
+    for student in students:
+        sum_grades += sum(student.grades[course])
+        marks_count += len(student.grades[course])
+    return sum_grades / marks_count
+
+
+def avg_lecture_grade(lecturers, course):
+    sum_grades = 0
+    grades_count = 0
+    for lecturer in lecturers:
+        sum_grades += sum(lecturer.grades[course])
+        grades_count += len(lecturer.grades[course])
+    return sum_grades / grades_count
+
+print(f'Средняя оценка за домашние задания по всем студентам в рамках курса Java: '
+      f'{avg_students_homework(students_list, "Java"):.1f}')
+print(f'Средняя оценка за лекции всех лекторов в рамках курса Python: '
+      f'{avg_students_homework(lecturers_list, "Python"):.1f}')
+
+
+
